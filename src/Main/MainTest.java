@@ -42,13 +42,13 @@ public class MainTest {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 //		Console console = System.console();
-		System.out.println("Hello");
 
+		HashMap<Vol,List<Reservation>> vols = new HashMap<Vol, List<Reservation>>();
 		List<Abonne> lesAbonnes= new ArrayList<Abonne>();
 
 		try{
 			lesAbonnes = Abonne.abonnefrom(new File("src/Data/abonne.txt"),3);
-			System.out.println(lesAbonnes);
+
 		}
 		catch (Exception ex) {
 			System.out.println(ex.getMessage());
@@ -56,6 +56,7 @@ public class MainTest {
 
 		boolean actif = true;
 		Date current_date = new Date();
+		Date date;
 		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 
 
@@ -76,7 +77,7 @@ public class MainTest {
 					System.out.println("xxxxxxxxxxxxxxxxx				CLIENT					xxxxxxxxxxxxxxxxxxxxxx\n");
 
 					System.out.print("Saisir une date (jj/mm/aaaa) :");
-					Date date;
+
 					date = new SimpleDateFormat("dd/MM/yyyy").parse(new BufferedReader(new InputStreamReader(System.in)).readLine());
 					while (date.getTime() < current_date.getTime()){
 						System.out.println(ANSI_RED+"						La date saisie est déjà dépassée"+ANSI_RESET);
@@ -104,21 +105,64 @@ public class MainTest {
 								a1 = abonne;
 							}
 						}
-
 						if(a1 == null){
 							tentative++;
-							if(tentative == 3){
+							if(tentative%3 == 0){
 								tentative = 0;
 								System.out.println(ANSI_RED+"					!!! Login et Mot de passe Incorrect !!! RESAISIR dans 15 sec "+ANSI_RESET);
 								TimeUnit.SECONDS.sleep(15);
-
 							}
 							else{
 								System.out.println(ANSI_RED+"					!!! Login et Mot de passe Incorrect !!! RESAISIR"+ANSI_RESET);
 							}
+							if(tentative == 7){
+								System.exit(0);
+							}
+						}
+						System.out.println(a1.toString());
+
+//						date = new SimpleDateFormat("dd/MM/yyyy").parse(new BufferedReader(new InputStreamReader(System.in)).readLine());
+//						while (date.getTime() < current_date.getTime()){
+//							System.out.println(ANSI_RED+"						La date saisie est déjà dépassée"+ANSI_RESET);
+//							System.out.print("Resaisir une date (jj/mm/aaaa) : ");
+//							date = new SimpleDateFormat("dd/MM/yyyy").parse(new BufferedReader(new InputStreamReader(System.in)).readLine());
+//						}
+						boolean actionabonne = true;
+						while(actionabonne) {
+
+							System.out.println("\n\nxxxxxxxxxxxxxxxxx			SELECTION D'UN ACTION				xxxxxxxxxxxxxxxxxxxxxx\n");
+							System.out.println(" Faire une Reservation : 1");
+							System.out.println(" afficher Points : 2 ");
+							System.out.println(" Resilier Compte : 3");
+							System.out.println(" Quitter : quit");
+
+							System.out.println("\nAction : ");
+							String action = new BufferedReader(new InputStreamReader(System.in)).readLine();
+
+							if(action.equals("1")){
+								System.out.println("\n\nxxxxxxxxxxxxxxxxx				RESERVATION			xxxxxxxxxxxxxxxxxxxxxx\n");
+								System.out.print(" Ville de depart :");
+								String ville_depart = new BufferedReader(new InputStreamReader(System.in)).readLine();
+								System.out.print(" Ville de arrivée :");
+								String ville_arrivée = new BufferedReader(new InputStreamReader(System.in)).readLine();
+
+
+								//When find vol select reserver.
+								//
+								//
+								//
+								//
+								//
+
+
+
+
+
+							}
+
 						}
 
-						System.out.println(a1.toString());
+
 
 
 
@@ -129,9 +173,6 @@ public class MainTest {
 
 
 				}
-
-
-
 				actif = false;
 			}
 			catch (Exception ex){

@@ -5,7 +5,9 @@ import java.util.Date;
 public class Reservation {
 	
 	private static final int FIRST_CLASSE = 1;
-	private static final int ECONOMIC_CLASSE = 2;
+	private static final int AFFAIRE_CLASSE = 2;
+	private static final int ECONOMY_CLASSE = 3;
+
 
 	private static final int ETAT_CONFIRMER = 1;
 	private static final int ETAT_ANNULER = -1;
@@ -17,12 +19,14 @@ public class Reservation {
 	private Date date;
 	private Aeroport depart;
 	private Aeroport Arrivee;
+	private int classe;
 	private int etat;
 	private double prix;
+	private Vol vol;
 	private Abonne abonne;
 	private Client client;
 
-	public Reservation(Date date, Aeroport depart, Aeroport arrivee, int etat, double prix, Client client) {
+	public Reservation(Date date, Aeroport depart, Aeroport arrivee, int etat, Client client) {
 		this.date = date;
 		this.depart = depart;
 		Arrivee = arrivee;
@@ -101,6 +105,7 @@ public class Reservation {
 	public void setClient(Client client) {
 		this.client = client;
 	}
+
 
 
 
