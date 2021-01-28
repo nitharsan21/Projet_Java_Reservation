@@ -14,6 +14,14 @@ import Technique.*;
 
 public class MainTest {
 
+	public static List<Abonne> lesAbonnes= new ArrayList<Abonne>();
+	public static List<Compagnie> lesCompagnie =  new ArrayList<Compagnie>();
+
+	public static SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+	public static Date current_date = new Date();
+
+
+
 	public static final String ANSI_RESET = "\u001B[0m";
 	public static final String ANSI_BLACK = "\u001B[30m";
 	public static final String ANSI_RED = "\u001B[31m";
@@ -38,47 +46,134 @@ public class MainTest {
 
 
 
-
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 //		Console console = System.console();
 
-		HashMap<Vol,List<Reservation>> vols = new HashMap<Vol, List<Reservation>>();
-		List<Abonne> lesAbonnes= new ArrayList<Abonne>();
+		initialisationProjet();
+/*
+		while(true){
+			System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+			System.out.println("x																			 x");
+			System.out.println("x" + ANSI_BLUE + "				Bienvenue dans la GESTION DES RÉSERVATIONS					 " + ANSI_RESET +"x");
+			System.out.println("x																			 x");
+			System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n");
+
+			System.out.println("\n\nxxxxxxxxxxxxxxxxx			SELECTION D'UN ACTION				xxxxxxxxxxxxxx\n");
+			System.out.println(" GESTION DE VOL : 1");
+			System.out.println(" RESERVATION : 2 ");
+			System.out.println(" Quitter : quit");
+
+			try {
+				System.out.print("\nAction : ");
+				String action = new BufferedReader(new InputStreamReader(System.in)).readLine();
+
+				switch(action){
+					case "1":
+						gestionVol(true);
+						break;
+					case "2":
+						reservationVol(true);
+						break;
+					case "quit":
+						System.exit(0);
+						break;
+					default:
+						System.out.println(ANSI_RED + "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!ACTION INCONNUE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" +ANSI_RESET );
+						break;
+
+				}
+
+			}catch (Exception ex){
+				System.out.println(ex.getMessage());
+			}
+
+		}*/
+
+
+	}//main
+
+
+	public static void initialisationProjet(){
 
 		try{
-			lesAbonnes = Abonne.abonnefrom(new File("src/Data/abonne.txt"),3);
+			System.out.println("les abonnées");
+			lesAbonnes = Abonne.abonnefrom(new File("src/Data/abonne.txt"));
+			for(Abonne a : lesAbonnes){
+				System.out.println(a);
+			}
+
+			System.out.println("\nLa liste des compagnies aériennes");
+			lesCompagnie = Compagnie.compagniesfrom(new File("src/Data/compagnie.txt"));
+
+
+			for(Compagnie c : lesCompagnie){
+				List<Avion> lesAvions = new ArrayList<>();
+				lesAvions = Avion.avionsfrom(new File("src/Data/Avion/"+c.getNomCompagnie()+"_Avions.txt"));
+				lesCompagnie.get(lesCompagnie.indexOf(c)).setListAvion(lesAvions);
+			}
+
+			for(Compagnie c : lesCompagnie){
+				System.out.println(c);
+				for(Avion a : c.getListAvion()) {
+					System.out.println(a);
+					System.out.println(a.getTarif().toString());
+				}
+			}
+
+
+
+
+
+
+
 
 		}
 		catch (Exception ex) {
 			System.out.println(ex.getMessage());
 		}
+	}//initialisationProjet
 
-		boolean actif = true;
-		Date current_date = new Date();
-		Date date;
-		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 
+	public static void gestionVol(boolean actif){
+		while(actif){
+			System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+			System.out.println("x																			 x");
+			System.out.println("x" + ANSI_PURPLE + "							GESTION DES VOLS							 " + ANSI_RESET+ "x");
+			System.out.println("x																			 x");
+			System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n");
+
+			try{
+
+
+			}catch(Exception ex){
+
+			}
+		}
+
+	}//gestionVol
+
+	public static void reservationVol(boolean actif){
 
 		while(actif){
 
 			System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
 			System.out.println("x																			 x");
-			System.out.println("x							RESERVATION	DES VOLS							 x");
+			System.out.println("x" + ANSI_GREEN + "							RESERVATION	DES VOLS							 " + ANSI_RESET+ "x");
 			System.out.println("x																			 x");
 			System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n");
 
 
 			try {
-				System.out.print("Avez vous une Abonné :");
+				System.out.print("Avez-vous un Abonné (oui/non):");
 				BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 				String verif = in.readLine();
 				if (verif.toLowerCase().equals("non")) {
-					System.out.println("xxxxxxxxxxxxxxxxx				CLIENT					xxxxxxxxxxxxxxxxxxxxxx\n");
+					System.out.println("\nxxxxxxxxxxxxxxxxx				CLIENT					xxxxxxxxxxxxxxxxxxxxxx\n");
 
 					System.out.print("Saisir une date (jj/mm/aaaa) :");
 
-					date = new SimpleDateFormat("dd/MM/yyyy").parse(new BufferedReader(new InputStreamReader(System.in)).readLine());
+					Date date = new SimpleDateFormat("dd/MM/yyyy").parse(new BufferedReader(new InputStreamReader(System.in)).readLine());
 					while (date.getTime() < current_date.getTime()){
 						System.out.println(ANSI_RED+"						La date saisie est déjà dépassée"+ANSI_RESET);
 						System.out.print("Resaisir une date (jj/mm/aaaa) : ");
@@ -89,7 +184,7 @@ public class MainTest {
 
 				} else if((verif.toLowerCase().equals("oui"))){
 					String login,mdp;
-					System.out.println("xxxxxxxxxxxxxxxxx				ABONNE					xxxxxxxxxxxxxxxxxxxxxx\n");
+					System.out.println("\nxxxxxxxxxxxxxxxxx				ABONNE					xxxxxxxxxxxxxxxxxxxxxx\n");
 					Abonne a1 = null;
 					int tentative = 0;
 
@@ -128,6 +223,7 @@ public class MainTest {
 //							date = new SimpleDateFormat("dd/MM/yyyy").parse(new BufferedReader(new InputStreamReader(System.in)).readLine());
 //						}
 						boolean actionabonne = true;
+
 						while(actionabonne) {
 
 							System.out.println("\n\nxxxxxxxxxxxxxxxxx			SELECTION D'UN ACTION				xxxxxxxxxxxxxxxxxxxxxx\n");
@@ -154,34 +250,19 @@ public class MainTest {
 								//
 								//
 
-
-
-
-
 							}
 
 						}
 
-
-
-
-
 					}
-
-
-
-
-
 				}
 				actif = false;
 			}
 			catch (Exception ex){
 				System.out.println("KO");
 			}
-
-
-
 		}
-	}
+	}//reservationVol
+
 
 }

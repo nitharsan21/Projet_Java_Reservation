@@ -11,6 +11,15 @@ public class Tarif {
     private int economy_wight_limit;
     private double perKilo;
 
+    public Tarif(double first_Class, int first_wight_limit, double business_Class, int business_wight_limit, double economy_Class, int economy_wight_limit, double perKilo) {
+        this.first_Class = first_Class;
+        this.first_wight_limit = first_wight_limit;
+        this.business_Class = business_Class;
+        this.business_wight_limit = business_wight_limit;
+        this.economy_Class = economy_Class;
+        this.economy_wight_limit = economy_wight_limit;
+        this.perKilo = perKilo;
+    }
 
     public double getTarif(int classe, double poid){
         switch (classe){
@@ -48,5 +57,16 @@ public class Tarif {
     }
 
 
-	
+    @Override
+    public String toString() {
+        return "Tarif{" +
+                "first_Class=" + first_Class +
+                ", first_wight_limit=" + first_wight_limit +
+                ", business_Class=" + business_Class +
+                ", business_wight_limit=" + business_wight_limit +
+                ", economy_Class=" + economy_Class +
+                ", economy_wight_limit=" + economy_wight_limit +
+                ", perKilo=" + perKilo +
+                '}';
+    }
 }

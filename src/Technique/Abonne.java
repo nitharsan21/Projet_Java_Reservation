@@ -90,13 +90,12 @@ public class Abonne extends Individu{
 	
 	
 
-	public static List<Abonne> abonnefrom(File file, int nbLine) throws FileNotFoundException {
+	public static List<Abonne> abonnefrom(File file) throws FileNotFoundException {
 		List<Abonne> lesAbonne = new ArrayList<Abonne>();
 		Scanner scanner = new Scanner(file);
-		for(int i = 0; i < nbLine;i++) {
+		while (scanner.hasNextLine()) {
 			Abonne subAbonne = Abonne.from(scanner.nextLine());
 				lesAbonne.add(subAbonne);
-
 		}
 		scanner.close();
 		return lesAbonne;

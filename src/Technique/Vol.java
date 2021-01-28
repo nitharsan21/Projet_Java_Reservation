@@ -1,81 +1,160 @@
 package Technique;
 
-import java.sql.Time;
 import java.util.Date;
+import java.util.List;
+import java.util.ArrayList;
 
 public class Vol {
-	private int id_vol;
- 	private Date date_vol;
- 	private int Nb_passager;
- 	private Time heure_Depart;
-	private Time heure_Arrivee;
+	private String reference;
+	private Date dateDepart;
+	private Date dateArrivee;
+	private int nbPassager;
+	private Aeroport aeroportDepart;
+	private Aeroport aeroportArrivee;
+	private List<Reservation> listPassager;
 	private Avion avion;
-	private double poidTotale;
+	private double poidsTotale;
 
-	public Vol(int id_vol, Date date_vol, int nb_passager, Time heure_Depart, Time heure_Arrivee, Avion avion, double poidTotale) {
-		this.id_vol = id_vol;
-		this.date_vol = date_vol;
-		Nb_passager = nb_passager;
-		this.heure_Depart = heure_Depart;
-		this.heure_Arrivee = heure_Arrivee;
-		this.avion = avion;
-		this.poidTotale = poidTotale;
+
+	public Vol(String reference, Date dateDepart, Date dateArrivee, int nbPassager, Aeroport aeroportDepart, Aeroport aeroportArrivee) {
+
+		this.reference = reference;
+		this.dateDepart = dateDepart;
+		this.dateArrivee = dateArrivee;
+		this.nbPassager = nbPassager;
+		this.aeroportDepart = aeroportDepart;
+		this.aeroportArrivee = aeroportArrivee;
+		this.listPassager = new ArrayList<Reservation>();
+
 	}
 
 
-	public int getId_vol() {
-		return id_vol;
+	// Méthodes liées aux getter
+
+
+	public String getReference() {
+
+		return reference;
+
 	}
 
-	public void setId_vol(int id_vol) {
-		this.id_vol = id_vol;
+	public Date getDateDepart() {
+
+		return dateDepart;
+
 	}
 
-	public Date getDate_vol() {
-		return date_vol;
+	public Date getDateArrivee() {
+
+		return dateArrivee;
+
 	}
 
-	public void setDate_vol(Date date_vol) {
-		this.date_vol = date_vol;
+	public int getNbPassager() {
+		return nbPassager;
 	}
 
-	public int getNb_passager() {
-		return Nb_passager;
+
+	public Aeroport getAeroportDepart() {
+
+		return aeroportDepart;
+
 	}
 
-	public void setNb_passager(int nb_passager) {
-		Nb_passager = nb_passager;
+	public Aeroport getAeroportArrivee() {
+
+		return aeroportArrivee;
+
 	}
 
-	public Time getHeure_Depart() {
-		return heure_Depart;
-	}
+	public List<Reservation> getListPassager() {
 
-	public void setHeure_Depart(Time heure_Depart) {
-		this.heure_Depart = heure_Depart;
-	}
+		return listPassager;
 
-	public Time getHeure_Arrivee() {
-		return heure_Arrivee;
-	}
-
-	public void setHeure_Arrivee(Time heure_Arrivee) {
-		this.heure_Arrivee = heure_Arrivee;
 	}
 
 	public Avion getAvion() {
+
 		return avion;
+
+	}
+
+	public double poidsTotale() {
+
+		return poidsTotale;
+
+	}
+
+
+	// Méthodes liées aux setter
+
+
+	public void setReference(String reference) {
+
+		this.reference = reference;
+
+	}
+
+	public void setDateDepart(Date dateDepart) {
+		this.dateDepart = dateDepart;
+	}
+
+	public void setDateArrivee(Date dateArrivee) {
+
+		this.dateArrivee = dateArrivee;
+
+	}
+
+	public void setNbPassager(int nbPassager) {
+		this.nbPassager = nbPassager;
+	}
+
+
+	public void setAeroportDepart(Aeroport aeroportDepart) {
+
+		this.aeroportDepart = aeroportDepart;
+
+	}
+
+	public void setAeroportArrivee(Aeroport aeroportArrivee) {
+
+		this.aeroportArrivee = aeroportArrivee;
+
 	}
 
 	public void setAvion(Avion avion) {
+
+		this.avion = avion;
+
+	}
+
+	public void setPoidsTotale(double poidsTotale) {
+
+		this.poidsTotale = poidsTotale;
+
+	}
+
+
+	// Méthodes liées à l'ajout des caractéristiques d'un vol
+
+	public void ajouterAvion(Avion avion) {
 		this.avion = avion;
 	}
 
-	public double getPoidTotale() {
-		return poidTotale;
+	public void ajouterPassager(Reservation reservation) {
+		if(this.avion.getCapacityMax() >= this.nbPassager) {
+			this.listPassager.add(reservation);
+			this.nbPassager++;
+		}else {
+			System.out.println("la capacité est étendue à sa limite. Essayez de réserver un autre vol.");
+		}
 	}
 
-	public void setPoidTotale(double poidTotale) {
-		this.poidTotale = poidTotale;
+	public String toString() {
+
+		return "Vol : " + this.reference + ", départ de : " + this.aeroportDepart + " le : " + this.dateDepart
+				+ ", arrivée a : " + this.aeroportArrivee + " le : " + this.dateArrivee
+				+ " a bord de l'avion : " + getAvion();
+
 	}
 }
