@@ -2,6 +2,7 @@ package Technique;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -160,6 +161,29 @@ public class Avion {
             }
         }
         return lesAvions;
+    }
+
+
+    public String formatfile(){
+        return  this.modele + ", " + this.nbSeats_FC + ", " + this.nbSeats_AC + ", "  + this.nbSeats_EC + ", "  + this.poidsMax + ", "
+                + this.tarif.getFirst_Class() + ", " + this.tarif.getFirst_wight_limit() + ", "
+                + this.tarif.getBusiness_Class() + ", " + this.tarif.getBusiness_wight_limit() + ", "
+                + this.tarif.getEconomy_Class() + ", " + this.tarif.getEconomy_wight_limit() + ", "
+                + this.tarif.getPerKilo() + "\n";
+    }
+
+
+    public static void saveAvion(String path, List<Avion> lesAvions) throws Exception{
+        File file = new File(path);
+        if(file.exists()){
+            file.delete();
+        }
+        file.createNewFile();
+        FileWriter filewrite = new FileWriter(path);
+        for(Avion avion : lesAvions){
+            filewrite.write(avion.formatfile());
+        }
+        filewrite.close();
     }
 
 

@@ -2,6 +2,7 @@ package Technique;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -28,7 +29,7 @@ public class Reservation {
 	private int classe;
 	private int etat;
 	private double prix;
-	private int personne;
+	private String personne;
 	private Individu passager;
 
 
@@ -45,6 +46,12 @@ public class Reservation {
 	}
 
 	public Date getDate() {
+		return date;
+	}
+
+	public String getDateformat() {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		String date = simpleDateFormat.format(this.date);
 		return date;
 	}
 
@@ -73,6 +80,14 @@ public class Reservation {
 		this.classe = classe;
 	}
 
+	public String getPersonne() {
+		return personne;
+	}
+
+	public void setPersonne(String personne) {
+		this.personne = personne;
+	}
+
 	@Override
 	public String toString() {
 		return "Reservation{" +
@@ -95,6 +110,7 @@ public class Reservation {
 			res.setClasse(Integer.parseInt(fields[2].strip()));
 			res.setEtat(Integer.parseInt(fields[3].strip()));
 			res.setPrix(Double.parseDouble(fields[4].strip()));
+			res.setPersonne(fields[5].strip());
 			if(fields[5].strip().equals(PERSONNE_ABONNE)){
 				res.setPassager(new Abonne(fields[6].strip(),fields[7].strip(),fields[8].strip(),fields[9].strip(),fields[10].strip(),Integer.parseInt(fields[11].strip()),fields[11].strip(),fields[13].strip()));
 			}
@@ -130,6 +146,27 @@ public class Reservation {
 		}
 		return lesResv;
 	}
+
+	public String formatfile(){
+		return  this.id_Reservation + ", " + this.getDateformat() + ", " + this.classe + ", "  + this.etat + ", "  + this.prix + ", "
+				+ this.personne + ", " + this.passager.getNom() + ", " + this.passager.getPrenom() + ", " + this.passager.getCode_postal() + ", " + this.passager.getAdresse() + ", "
+				+ this.passager.getVille() + ", " + this.passager.getAge() + ", " + this.passager.getEmail() + ", " + this.passager.getTel() + "\n";
+	}
+
+
+	public static void saveReservation(String path, List<Reservation> lesResv) throws Exception{
+		File file = new File(path);
+		if(file.exists()){
+			file.delete();
+		}
+		file.createNewFile();
+		FileWriter filewrite = new FileWriter(path);
+		for(Reservation resv : lesResv){
+			filewrite.write(resv.formatfile());
+		}
+		filewrite.close();
+	}
+
 
 
 

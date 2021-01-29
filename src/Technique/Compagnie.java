@@ -2,6 +2,7 @@ package Technique;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.util.*;
 
 public class Compagnie {
@@ -17,10 +18,8 @@ public class Compagnie {
 	*/
 
     public Compagnie(String nomCompagnie) {
-
         this.nomCompagnie = nomCompagnie;
         this.listAvion = new ArrayList<Avion>();
-
     }
 
 
@@ -88,5 +87,25 @@ public class Compagnie {
         scanner.close();
         return lesCompignies;
     }
+
+    public String formatfile(){
+        return  this.nomCompagnie + "\n";
+    }
+
+
+    public static void saveCompagnie(String path, List<Compagnie> lesCompagnies) throws Exception{
+        File file = new File(path);
+        if(file.exists()){
+            file.delete();
+        }
+        file.createNewFile();
+        FileWriter filewrite = new FileWriter(path);
+        for(Compagnie compagnie : lesCompagnies){
+            filewrite.write(compagnie.formatfile());
+        }
+        filewrite.close();
+    }
+
+
 
 }

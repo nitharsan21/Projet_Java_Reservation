@@ -21,6 +21,65 @@ public class Tarif {
         this.perKilo = perKilo;
     }
 
+    public Tarif(){};
+
+
+    public double getFirst_Class() {
+        return first_Class;
+    }
+
+    public void setFirst_Class(double first_Class) {
+        this.first_Class = first_Class;
+    }
+
+    public int getFirst_wight_limit() {
+        return first_wight_limit;
+    }
+
+    public void setFirst_wight_limit(int first_wight_limit) {
+        this.first_wight_limit = first_wight_limit;
+    }
+
+    public double getBusiness_Class() {
+        return business_Class;
+    }
+
+    public void setBusiness_Class(double business_Class) {
+        this.business_Class = business_Class;
+    }
+
+    public int getBusiness_wight_limit() {
+        return business_wight_limit;
+    }
+
+    public void setBusiness_wight_limit(int business_wight_limit) {
+        this.business_wight_limit = business_wight_limit;
+    }
+
+    public double getEconomy_Class() {
+        return economy_Class;
+    }
+
+    public void setEconomy_Class(double economy_Class) {
+        this.economy_Class = economy_Class;
+    }
+
+    public int getEconomy_wight_limit() {
+        return economy_wight_limit;
+    }
+
+    public void setEconomy_wight_limit(int economy_wight_limit) {
+        this.economy_wight_limit = economy_wight_limit;
+    }
+
+    public double getPerKilo() {
+        return perKilo;
+    }
+
+    public void setPerKilo(double perKilo) {
+        this.perKilo = perKilo;
+    }
+
     public double getTarif(int classe, double poid){
         switch (classe){
             case 1:

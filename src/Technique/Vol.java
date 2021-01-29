@@ -1,9 +1,6 @@
 package Technique;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -47,16 +44,28 @@ public class Vol {
 	}
 
 	public Date getDateDepart() {
-
 		return dateDepart;
-
 	}
+
+	public String getDateDepartformat() {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		String date = simpleDateFormat.format(this.dateDepart);
+		return date;
+	}
+
+
 
 	public Date getDateArrivee() {
-
 		return dateArrivee;
-
 	}
+
+	public String getDateArriveeformat() {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		String date = simpleDateFormat.format(this.dateArrivee);
+		return date;
+	}
+
+
 
 	public int getNbPassager() {
 		return nbPassager;
@@ -214,6 +223,27 @@ public class Vol {
 		return lesVols;
 	}
 
+
+
+	public String formatfile(){
+		return  this.reference + ", " + this.getDateDepartformat() + ", " + this.aeroportDepart.getNom() + ", "  + this.aeroportDepart.getVille() + ", "  + this.aeroportDepart.getPays() + ", "
+				+ this.getDateArriveeformat() + ", " + this.aeroportArrivee.getNom() + ", "  + this.aeroportArrivee.getVille() + ", "  + this.aeroportArrivee.getPays() + ", "
+				+ this.nbPassager + "\n";
+	}
+
+
+	public static void saveVol(String path, List<Vol> lesVols) throws Exception{
+		File file = new File(path);
+		if(file.exists()){
+			file.delete();
+		}
+		file.createNewFile();
+		FileWriter filewrite = new FileWriter(path);
+		for(Vol vol : lesVols){
+			filewrite.write(vol.formatfile());
+		}
+		filewrite.close();
+	}
 
 
 

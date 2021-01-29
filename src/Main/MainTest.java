@@ -152,6 +152,17 @@ public class MainTest {
 		try {
 			Abonne.saveAbonne(PATH_ABONNE, lesAbonnes);
 
+			Compagnie.saveCompagnie(PATH_COMPAGNIE,lesCompagnie);
+			for (Compagnie c : lesCompagnie) {
+				Avion.saveAvion("src/Data/Avion/"+c.getNomCompagnie()+"_Avions.txt", c.getListAvion());
+				for (Avion a : c.getListAvion()) {
+					Vol.saveVol("src/Data/Avion/Vol/"+c.getNomCompagnie()+ "_"+ a.getModele() +"_Vols.txt",a.getListVol());
+					for (Vol v : a.getListVol()) {
+						Reservation.saveReservation("src/Data/Avion/Vol/Reservation/"+c.getNomCompagnie()+"_"+a.getModele() +"_"+v.getReference()+"_Reservations.txt",v.getListPassager());
+
+					}
+				}
+			}
 
 
 
