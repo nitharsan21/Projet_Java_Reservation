@@ -11,6 +11,7 @@ import java.util.concurrent.TimeUnit;
 
 
 import Technique.*;
+import jdk.dynalink.beans.StaticClass;
 
 public class MainTest {
 
@@ -19,6 +20,9 @@ public class MainTest {
 
 	public static SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 	public static Date current_date = new Date();
+
+	public static final String PATH_ABONNE = "src/Data/abonne.txt";
+	public static final String PATH_COMPAGNIE = "src/Data/compagnie.txt";
 
 
 
@@ -32,17 +36,6 @@ public class MainTest {
 	public static final String ANSI_CYAN = "\u001B[36m";
 	public static final String ANSI_WHITE = "\u001B[37m";
 
-	public static final String ANSI_BLACK_BACKGROUND = "\u001B[40m";
-	public static final String ANSI_RED_BACKGROUND = "\u001B[41m";
-	public static final String ANSI_GREEN_BACKGROUND = "\u001B[42m";
-	public static final String ANSI_YELLOW_BACKGROUND = "\u001B[43m";
-	public static final String ANSI_BLUE_BACKGROUND = "\u001B[44m";
-	public static final String ANSI_PURPLE_BACKGROUND = "\u001B[45m";
-	public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
-	public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
-
-
-//	= Abonne.abonnefrom(new File("sdq"));
 
 
 
@@ -51,6 +44,7 @@ public class MainTest {
 //		Console console = System.console();
 
 		initialisationProjet();
+		saveProjet();
 /*
 		while(true){
 			System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
@@ -98,41 +92,119 @@ public class MainTest {
 
 		try{
 			System.out.println("les abonnées");
-			lesAbonnes = Abonne.abonnefrom(new File("src/Data/abonne.txt"));
+			lesAbonnes = Abonne.abonnefrom(new File(PATH_ABONNE));
 			for(Abonne a : lesAbonnes){
 				System.out.println(a);
 			}
 
 			System.out.println("\nLa liste des compagnies aériennes");
-			lesCompagnie = Compagnie.compagniesfrom(new File("src/Data/compagnie.txt"));
+			lesCompagnie = Compagnie.compagniesfrom(new File(PATH_COMPAGNIE));
 
 
-			for(Compagnie c : lesCompagnie){
-				List<Avion> lesAvions = new ArrayList<>();
-				lesAvions = Avion.avionsfrom(new File("src/Data/Avion/"+c.getNomCompagnie()+"_Avions.txt"));
-				lesCompagnie.get(lesCompagnie.indexOf(c)).setListAvion(lesAvions);
+			for(Compagnie compagnie : lesCompagnie){
+				List<Avion> lesAvions = new ArrayList<Avion>();
+				lesAvions = Avion.avionsfrom(new File("src/Data/Avion/"+compagnie.getNomCompagnie()+"_Avions.txt"));
+				lesCompagnie.get(lesCompagnie.indexOf(compagnie)).setListAvion(lesAvions);
 			}
 
-			for(Compagnie c : lesCompagnie){
-				System.out.println(c);
-				for(Avion a : c.getListAvion()) {
-					System.out.println(a);
-					System.out.println(a.getTarif().toString());
+			for(Compagnie compagnie : lesCompagnie){
+				for(Avion avion : lesCompagnie.get(lesCompagnie.indexOf(compagnie)).getListAvion()) {
+					List<Vol> lesVols = new ArrayList<Vol>();
+					lesVols = Vol.volsfrom(new File("src/Data/Avion/Vol/"+compagnie.getNomCompagnie()+"_"+avion.getModele() +"_Vols.txt"));
+					avion.setListVol(lesVols);
 				}
 			}
 
+			for(Compagnie c : lesCompagnie){
+				for(Avion a : c.getListAvion()) {
+					for(Vol v : a.getListVol()) {
+						List<Reservation> lesResv = new ArrayList<Reservation>();
+						lesResv = Reservation.reservationfrom(new File("src/Data/Avion/Vol/Reservation/"+c.getNomCompagnie()+"_"+a.getModele() +"_"+v.getReference()+"_Reservations.txt"));
+						v.setListPassager(lesResv);
+					}
+				}
+			}
 
-
-
-
-
-
+//			for(Compagnie c : lesCompagnie){
+//				System.out.println(c);
+//				for(Avion a : c.getListAvion()) {
+//					System.out.println(a);
+//					System.out.println(a.getTarif().toString());
+//					for(Vol v : a.getListVol()) {
+//						System.out.println(v.toString());
+//						for(Reservation r : v.getListPassager()) {
+//							System.out.println(r.toString());
+//
+//
+//						}
+//					}
+//				}
+//			}
 
 		}
 		catch (Exception ex) {
 			System.out.println(ex.getMessage());
 		}
 	}//initialisationProjet
+
+	public static void saveProjet(){
+
+		try {
+			Abonne.saveAbonne(PATH_ABONNE, lesAbonnes);
+
+
+
+
+
+			for (Compagnie c : lesCompagnie) {
+				System.out.println(c);
+				for (Avion a : c.getListAvion()) {
+					System.out.println(a);
+					System.out.println(a.getTarif().toString());
+					for (Vol v : a.getListVol()) {
+						System.out.println(v.toString());
+						for (Reservation r : v.getListPassager()) {
+							System.out.println(r.toString());
+
+
+						}
+					}
+				}
+			}
+
+
+		}catch (Exception ex){
+			System.out.println(ex.getMessage());
+		}
+
+	}//saveProjet
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 	public static void gestionVol(boolean actif){

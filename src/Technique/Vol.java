@@ -1,16 +1,23 @@
 package Technique;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Vol {
+
 	private String reference;
 	private Date dateDepart;
-	private Date dateArrivee;
-	private int nbPassager;
 	private Aeroport aeroportDepart;
+	private Date dateArrivee;
 	private Aeroport aeroportArrivee;
+	private int nbPassager;
 	private List<Reservation> listPassager;
 	private Avion avion;
 	private double poidsTotale;
@@ -27,6 +34,7 @@ public class Vol {
 		this.listPassager = new ArrayList<Reservation>();
 
 	}
+	public Vol(){};
 
 
 	// Méthodes liées aux getter
@@ -95,13 +103,15 @@ public class Vol {
 
 	}
 
-	public void setDateDepart(Date dateDepart) {
-		this.dateDepart = dateDepart;
+	public void setDateDepart(String dateDepart) throws Exception {
+		Date date = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(dateDepart);
+		this.dateDepart = date;
 	}
 
-	public void setDateArrivee(Date dateArrivee) {
+	public void setDateArrivee(String dateArrivee) throws Exception {
+		Date date = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(dateArrivee);
+		this.dateArrivee = date;
 
-		this.dateArrivee = dateArrivee;
 
 	}
 
@@ -150,11 +160,62 @@ public class Vol {
 		}
 	}
 
+
+	public void setListPassager(List<Reservation> listPassager) {
+		this.listPassager = listPassager;
+	}
+
+
 	public String toString() {
 
 		return "Vol : " + this.reference + ", départ de : " + this.aeroportDepart + " le : " + this.dateDepart
-				+ ", arrivée a : " + this.aeroportArrivee + " le : " + this.dateArrivee
-				+ " a bord de l'avion : " + getAvion();
+				+ ", arrivée a : " + this.aeroportArrivee + " le : " + this.dateArrivee;
+//				+ " a bord de l'avion : " + getAvion();
 
 	}
+
+
+	public static Vol from(String text) {
+		Vol vol = new Vol();
+		try {
+			String[] fields = text.split(",");
+			vol.setReference(fields[0].strip());
+			vol.setDateDepart(fields[1].strip());
+			vol.setAeroportDepart(new Aeroport(fields[2].strip(),fields[3].strip(),fields[4].strip()));
+			vol.setDateArrivee(fields[5].strip());
+			vol.setAeroportArrivee(new Aeroport(fields[6].strip(),fields[7].strip(),fields[8].strip()));
+			vol.setNbPassager(Integer.parseInt(fields[9].strip()));
+		}catch (Exception ex){
+			System.out.println(ex.getMessage());
+		}
+		return vol;
+	}
+
+
+	public static List<Vol> volsfrom(File file) throws FileNotFoundException {
+		List<Vol> lesVols = new ArrayList<Vol>();
+		if((file.exists() && !file.isDirectory())) {
+			Scanner scanner = new Scanner(file);
+			while (scanner.hasNextLine()) {
+				Vol subVol = Vol.from(scanner.nextLine());
+				lesVols.add(subVol);
+
+			}
+			scanner.close();
+
+		} else{
+		try {
+			file.createNewFile();
+		}
+		catch (Exception ex){
+			System.out.println(ex.getMessage());
+		}
+	}
+		return lesVols;
+	}
+
+
+
+
+
 }

@@ -2,6 +2,7 @@ package Technique;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -22,6 +23,13 @@ public class Abonne extends Individu{
 		this.mdp = mdp;
 		this.nb_points = nb_points;
 	}
+
+
+	public Abonne(String nom, String prenom, String code_postal, String adresse, String ville, int age, String email,
+	String tel){
+		super(nom, prenom, code_postal, adresse, ville, age, email, tel);
+	}
+
 
 
 	public int getId_abonne() {
@@ -69,6 +77,12 @@ public class Abonne extends Individu{
 		return "Abonne : " + this.getNom() + " " + this.getPrenom();
 	}
 
+	public String formatfile(){
+		return this.getNom() + ", " + this.getPrenom() + ", " + this.getCode_postal() + ", " + this.getAdresse() + ", "
+				+ this.getVille() + ", " + this.getAge() + ", " + this.getEmail() + ", " + this.getTel() + ", " + this.id_abonne + ", "
+				+ this.login + ", " + this.mdp + ", " + this.nb_points + " \n";
+	}
+
 	public static Abonne from(String text) {
 
 		String[] fields = text.split(",");
@@ -100,7 +114,20 @@ public class Abonne extends Individu{
 		scanner.close();
 		return lesAbonne;
 	}
-	
+
+
+	public static void saveAbonne(String path, List<Abonne> lesAbonnes) throws Exception{
+		File file = new File(path);
+		if(file.exists()){
+			file.delete();
+		}
+		file.createNewFile();
+		FileWriter filewrite = new FileWriter(path);
+		for(Abonne abonne : lesAbonnes){
+			filewrite.write(abonne.formatfile());
+		}
+		filewrite.close();
+	}
 	
 	
 

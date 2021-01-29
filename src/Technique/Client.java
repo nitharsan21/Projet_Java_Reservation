@@ -12,6 +12,12 @@ public class Client extends Individu{
 		this.id_client = id_client;
 	}
 
+	public Client(String nom, String prenom, String code_postal, String adresse, String ville, int age, String email,
+				  String tel){
+		super(nom, prenom, code_postal, adresse, ville, age, email, tel);
+	}
+
+
 
 	public int getId_client() {
 		return id_client;
@@ -24,9 +30,7 @@ public class Client extends Individu{
 
 
 	@Override
-	public String toString() {
-		return "Client [id_client=" + id_client + "]";
-	}
+	public String toString() { return "Client : " + this.getNom() + " " + this.getPrenom();}
 	
 	
 	public void ShowVol(String depart, String Arriver) {

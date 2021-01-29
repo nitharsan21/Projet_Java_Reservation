@@ -1,0 +1,2 @@
+AF101, 06/02/2021 11:30, Charle de Gaulle, Paris, FRANCE, 07/02/2021 12:00, Heathrow, Londres,  United Kingdom , 3
+AF102, 08/02/2021 13:30,Aéroport de Lyon-Saint Exupéry, Lyon, FRANCE, 09/02/2021 14:00, Heathrow, Londres,  United Kingdom, 0

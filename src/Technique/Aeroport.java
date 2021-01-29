@@ -80,9 +80,7 @@ public class Aeroport {
 	*/
 
 	public String toString() {
-
-		return "Aeroport : " + this.nom + ", ville : " + this.ville + ", pays : " + this.pays;
-
+		return  this.nom + "," + this.ville + " " + this.pays;
 	}
 
 }
