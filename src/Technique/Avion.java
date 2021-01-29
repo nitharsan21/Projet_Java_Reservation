@@ -10,7 +10,7 @@ import java.util.Scanner;
 public class Avion {
     private String modele;
     private int nbSeats_FC ;
-    private int nbSeats_AC ;
+    private int nbSeats_BC ;
     private int nbSeats_EC ;
     private int  capacityMax;
     private double poidsMax;
@@ -23,18 +23,19 @@ public class Avion {
         this.modele = modele;
         this.poidsMax = poid_max;
         this.tarif = tarif;
-        this.nbSeats_AC = 6;
-        this.nbSeats_AC = 12;
-        this.nbSeats_AC = 24;
-        this.capacityMax = this.nbSeats_FC + this.nbSeats_AC + this.nbSeats_EC;
+        this.nbSeats_FC = 6;
+        this.nbSeats_BC = 12;
+        this.nbSeats_EC = 24;
+        this.capacityMax = this.nbSeats_FC + this.nbSeats_BC + this.nbSeats_EC;
         this.listVol = new ArrayList<Vol>();
     }
     public Avion(){
-        this.nbSeats_AC = 6;
-        this.nbSeats_AC = 12;
-        this.nbSeats_AC = 24;
-        this.capacityMax = this.nbSeats_FC + this.nbSeats_AC + this.nbSeats_EC;
+        this.nbSeats_FC = 6;
+        this.nbSeats_BC = 12;
+        this.nbSeats_EC = 24;
+        this.capacityMax = this.nbSeats_FC + this.nbSeats_BC + this.nbSeats_EC;
         this.listVol = new ArrayList<Vol>();
+        this.tarif = new Tarif();
     }
 
     public String getModele() {
@@ -79,12 +80,12 @@ public class Avion {
         this.capacityMax =  this.getCapacityMax();
     }
 
-    public int getNbSeats_AC() {
-        return nbSeats_AC;
+    public int getnbSeats_BC() {
+        return nbSeats_BC;
     }
 
-    public void setNbSeats_AC(int nbSeats_AC) {
-        this.nbSeats_AC = nbSeats_AC;
+    public void setnbSeats_BC(int nbSeats_BC) {
+        this.nbSeats_BC = nbSeats_BC;
         this.capacityMax =  this.getCapacityMax();
     }
 
@@ -99,7 +100,7 @@ public class Avion {
     }
 
     public int getCapacityMax() {
-        return this.nbSeats_FC + this.nbSeats_AC + this.nbSeats_EC;
+        return this.nbSeats_FC + this.nbSeats_BC + this.nbSeats_EC;
     }
 
 
@@ -115,6 +116,8 @@ public class Avion {
 
 
 
+
+
     public static Avion from(String text) {
         Avion avion = new Avion();
         String[] fields = text.split(",");
@@ -122,7 +125,7 @@ public class Avion {
         // Avion
         avion.setModele(fields[0].strip());
         avion.setNbSeats_FC(Integer.parseInt(fields[1].strip()));
-        avion.setNbSeats_AC(Integer.parseInt(fields[2].strip()));
+        avion.setnbSeats_BC(Integer.parseInt(fields[2].strip()));
         avion.setNbSeats_EC(Integer.parseInt(fields[3].strip()));
         avion.setPoidsMax(Double.parseDouble(fields[4].strip()));
 
@@ -165,7 +168,7 @@ public class Avion {
 
 
     public String formatfile(){
-        return  this.modele + ", " + this.nbSeats_FC + ", " + this.nbSeats_AC + ", "  + this.nbSeats_EC + ", "  + this.poidsMax + ", "
+        return  this.modele + ", " + this.nbSeats_FC + ", " + this.nbSeats_BC + ", "  + this.nbSeats_EC + ", "  + this.poidsMax + ", "
                 + this.tarif.getFirst_Class() + ", " + this.tarif.getFirst_wight_limit() + ", "
                 + this.tarif.getBusiness_Class() + ", " + this.tarif.getBusiness_wight_limit() + ", "
                 + this.tarif.getEconomy_Class() + ", " + this.tarif.getEconomy_wight_limit() + ", "

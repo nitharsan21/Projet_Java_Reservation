@@ -12,7 +12,7 @@ import java.util.Scanner;
 public class Reservation {
 	
 	public static final int FIRST_CLASSE = 1;
-	public static final int AFFAIRE_CLASSE = 2;
+	public static final int BUSINESS_CLASSE = 2;
 	public static final int ECONOMY_CLASSE = 3;
 
 	public static final int ETAT_CONFIRMER = 1;
